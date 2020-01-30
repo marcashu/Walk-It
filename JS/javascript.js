@@ -11,6 +11,25 @@ function initMap() {
       document.getElementById('map'), {zoom: 22});
   infoWindow = new google.maps.InfoWindow;
 
+  if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(function(position) {
+        var pos = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
+        };
+        console.log(pos);
+        map.setCenter(pos);
+
+        //The marker, positioned at user location
+        var marker = new google.maps.Marker({position: pos, map: map});
+
+      }, function() {
+        handleLocationError(true, map.getCenter());
+      });
+    } else {
+      // Browser doesn't support Geolocation
+      handleLocationError(false, map.getCenter());
+    }
 
   const interval = setInterval(function() {
   console.log("Locating user...")
@@ -22,7 +41,6 @@ function initMap() {
           lng: position.coords.longitude
         };
         console.log(pos);
-        map.setCenter(pos);
 
         //The marker, positioned at user location
         var marker = new google.maps.Marker({position: pos, map: map});
