@@ -6,41 +6,55 @@
   }).addTo(map);
 }*/
 function initMap() {
-  //Get user location
-  navigator.geolocation.getCurrentPosition(success, error);
+  //Create map and itialize to world map
+  var map = new google.maps.Map(
+      document.getElementById('map'), {zoom: 18});
+  infoWindow = new google.maps.InfoWindow;
 
-  function error() {
-    location.innerHTML = "Unable to retrieve your location";
-  }
 
-  function success(position) {
-      latitude = position.coords.latitude;
-      longitude = position.coords.longitude;
-    
-    var userLoc = {lat: latitude, lng: longitude};
-    //Map centered at user location
-    var map = new google.maps.Map(
-        document.getElementById('map'), {zoom: 16, center: userLoc});
-    //The marker, positioned at Uluru
-    var marker = new google.maps.Marker({position: userLoc, map: map});
+  const interval = setInterval(function() {
+  console.log("Locating user...")
+    //Get user location
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(function(position) {
+        var pos = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
+        };
+        console.log(pos);
+        map.setCenter(pos);
 
-    var flightPlanCoordinates = [
-      {lat: 37.772, lng: -122.214},
-      {lat: 21.291, lng: -157.821},
-      {lat: -18.142, lng: 178.431},
-      {lat: -27.467, lng: 153.027}
-    ];
+        //The marker, positioned at user location
+        var marker = new google.maps.Marker({position: pos, map: map});
 
-    var flightPath = new google.maps.Polyline({
-            path: flightPlanCoordinates,
-            geodesic: true,
-            strokeColor: '#FF0000',
-            strokeOpacity: 1.0,
-            strokeWeight: 2
-          });
+      }, function() {
+        handleLocationError(true, map.getCenter());
+      });
+    } else {
+      // Browser doesn't support Geolocation
+      handleLocationError(false, map.getCenter());
+    }
+  }, 5000)
 
-    flightPath.setMap(map);
-  }
+
+  //----------------------------------------
+
+  var flightPlanCoordinates = [
+    {lat: 37.772, lng: -122.214},
+    {lat: 21.291, lng: -157.821},
+    {lat: -18.142, lng: 178.431},
+    {lat: -27.467, lng: 153.027}
+  ];
+
+  var flightPath = new google.maps.Polyline({
+          path: flightPlanCoordinates,
+          geodesic: true,
+          strokeColor: '#FF0000',
+          strokeOpacity: 1.0,
+          strokeWeight: 2
+        });
+
+  flightPath.setMap(map);
 }
 
 function weather() {
@@ -74,11 +88,6 @@ function weather() {
 }
 
 weather();
-const interval = setInterval(function() {
-  console.log("Locating user...")
-  initMap();
- }, 5000)
-
-//initMap();
+initMap();
 
 // https://enlight.nyc/projects/weather/
