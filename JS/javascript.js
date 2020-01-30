@@ -1,10 +1,5 @@
-/*function map(a, b){
-  var map = L.map('map').setView([a, b], 100);
 
-  L.tileLayer('https://api.maptiler.com/maps/streets/{z}/{x}/{y}.png?key=MSG1AbUMXyiahW0ZtfiQ', {
-      attribtution: '<a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>'
-  }).addTo(map);
-}*/
+
 function initMap() {
   //Create map and itialize to world map
   var map = new google.maps.Map(
@@ -31,6 +26,7 @@ function initMap() {
       handleLocationError(false, map.getCenter());
     }
 
+  /*
   const interval = setInterval(function() {
   console.log("Locating user...")
     //Get user location
@@ -53,8 +49,8 @@ function initMap() {
       handleLocationError(false, map.getCenter());
     }
   }, 5000)
-
-
+  
+  */
   //----------------------------------------
 
   var flightPlanCoordinates = [
@@ -74,6 +70,37 @@ function initMap() {
 
   flightPath.setMap(map);
 }
+
+function path() {
+  //Create new map and itialize to world map
+  var map = new google.maps.Map(
+      document.getElementById('map'), {zoom: 22});
+  infoWindow = new google.maps.InfoWindow;
+
+  const interval = setInterval(function() {
+    console.log("Locating user...")
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(function locFinder(position) {
+        var pos = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
+        };
+        console.log(pos + "HI I WORK");
+
+        //The marker, positioned at user location
+        var marker = new google.maps.Marker({position: pos, map: map});
+
+      }, function() {
+        handleLocationError(true, map.getCenter());
+      });
+    } else {
+      // Browser doesn't support Geolocation
+      handleLocationError(false, map.getCenter());
+    }
+  }, 5000)
+}
+
+path();
 
 function weather() {
   var location = document.getElementById("location");
