@@ -8,7 +8,7 @@
 function initMap() {
   //Create map and itialize to world map
   var map = new google.maps.Map(
-      document.getElementById('map'), {zoom: 18});
+      document.getElementById('map'), {zoom: 22});
   infoWindow = new google.maps.InfoWindow;
 
 
