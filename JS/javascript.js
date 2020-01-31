@@ -1,5 +1,3 @@
-
-
 function initMap() {
   //Create map and itialize to world map
   var map = new google.maps.Map(
@@ -7,7 +5,7 @@ function initMap() {
   infoWindow = new google.maps.InfoWindow;
 
   if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(function(position) {
+      navigator.geolocation.getCurrentPosition(function userLoc(position) {
         var pos = {
           lat: position.coords.latitude,
           lng: position.coords.longitude
@@ -15,19 +13,23 @@ function initMap() {
         console.log(pos);
         map.setCenter(pos);
 
+        //marker to be placed at user command and positioned at user location
+        document.getElementById("draw").onclick = function(){
+          var marker = new google.maps.Marker({position: pos, map: map});
+          console.log("marker placed");
+        }
         //The marker, positioned at user location
-        var marker = new google.maps.Marker({position: pos, map: map});
-
+        //var marker = new google.maps.Marker({position: pos, map: map});
+      
       }, function() {
         handleLocationError(true, map.getCenter());
       });
-    } else {
-      // Browser doesn't support Geolocation
-      handleLocationError(false, map.getCenter());
-    }
+  } else {
+    //error handling
+    handleLocationError(false, map.getCenter());
+  }
 
-  /*
-  const interval = setInterval(function() {
+  /*const interval = setInterval(function() {
   console.log("Locating user...")
     //Get user location
     if (navigator.geolocation) {
@@ -48,9 +50,8 @@ function initMap() {
       // Browser doesn't support Geolocation
       handleLocationError(false, map.getCenter());
     }
-  }, 5000)
+  }, 5000)*/
   
-  */
   //----------------------------------------
 
   var flightPlanCoordinates = [
@@ -70,37 +71,6 @@ function initMap() {
 
   flightPath.setMap(map);
 }
-
-function path() {
-  //Create new map and itialize to world map
-  var map = new google.maps.Map(
-      document.getElementById('map'), {zoom: 22});
-  infoWindow = new google.maps.InfoWindow;
-
-  const interval = setInterval(function() {
-    console.log("Locating user...")
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(function locFinder(position) {
-        var pos = {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude
-        };
-        console.log(pos + "HI I WORK");
-
-        //The marker, positioned at user location
-        var marker = new google.maps.Marker({position: pos, map: map});
-
-      }, function() {
-        handleLocationError(true, map.getCenter());
-      });
-    } else {
-      // Browser doesn't support Geolocation
-      handleLocationError(false, map.getCenter());
-    }
-  }, 5000)
-}
-
-path();
 
 function weather() {
   var location = document.getElementById("location");
@@ -134,5 +104,4 @@ function weather() {
 
 weather();
 initMap();
-
 // https://enlight.nyc/projects/weather/
