@@ -17,9 +17,10 @@ function initMap() {
         var marker = new google.maps.Marker({
           position: pos,
           map: map,
-          icon: {
-          url: "http://maps.google.com/mapfiles/kml/paddle/red-circle.png"
-          }
+          label: "Me"
+          //icon: {
+          //src: "http://maps.google.com/mapfiles/kml/paddle/red-circle.png"
+          //}
         });
       }, function() {
         handleLocationError(true, map.getCenter());
@@ -45,9 +46,11 @@ function initMap() {
           var marker = new google.maps.Marker({
             position: pos,
             map: map,
-            icon: {
-              url: "http://maps.google.com/mapfiles/kml/paddle/blu-circle.png"
-            }
+            draggable: true,
+            label: "A"
+            //icon: {
+            //  url: "http://maps.google.com/mapfiles/kml/paddle/blu-circle.png"
+            //}
           });
           console.log("marker placed");
         }
@@ -56,9 +59,8 @@ function initMap() {
           var marker = new google.maps.Marker({
             position: pos,
             map: map,
-            icon: {
-              url: "http://maps.google.com/mapfiles/kml/paddle/ylw-circle.png"
-            }
+            draggable: true,
+            label: "B"
           });
           console.log("marker placed");
         }
@@ -70,6 +72,9 @@ function initMap() {
       handleLocationError(false, map.getCenter());
     }
   }, 5000)
+
+  //remove marker code
+  //marker.setMap(null);
   
   //----------------------------------------
 
