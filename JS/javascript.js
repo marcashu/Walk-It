@@ -4,7 +4,7 @@ function initMap() {
       document.getElementById('map'), {zoom: 22});
   infoWindow = new google.maps.InfoWindow;
 
-  var userCoords = []
+  var userCoords = [];
 
   if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(function userLoc(position) {
@@ -71,20 +71,16 @@ function initMap() {
   //----------------------------------------
 
   var flightPlanCoordinates = [
-    {lat: 37.772, lng: -122.214},
-    {lat: 21.291, lng: -157.821},
-    {lat: -18.142, lng: 178.431},
-    {lat: -27.467, lng: 153.027}
-  ];
+      {lat: 53.227707, lng: -0.549551},
+      {lat: 53.227239, lng: -0.549251}
+    ];
 
   var flightPath = new google.maps.Polyline({
-          path: flightPlanCoordinates,
-          geodesic: true,
+          path: userCoords,
           strokeColor: '#FF0000',
           strokeOpacity: 1.0,
           strokeWeight: 2
         });
-
   flightPath.setMap(map);
 }
 
