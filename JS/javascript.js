@@ -51,20 +51,10 @@ function initMap() {
             draggable: true,
             label: "A"
           });
-
           userCoords.push(pos);
           console.log("marker placed");
         }
 
-        document.getElementById("draw2").onclick = function(){
-          var marker = new google.maps.Marker({
-            position: pos,
-            map: map,
-            draggable: true,
-            label: "B"
-          });
-          console.log("marker placed");
-        }
       }, function() {
         handleLocationError(true, map.getCenter());
       });
@@ -87,10 +77,8 @@ function initMap() {
     {lat: -27.467, lng: 153.027}
   ];
 
-  console.log(flightPlanCoordinates);
-
   var flightPath = new google.maps.Polyline({
-          path: userCoords,
+          path: flightPlanCoordinates,
           geodesic: true,
           strokeColor: '#FF0000',
           strokeOpacity: 1.0,
