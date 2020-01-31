@@ -4,6 +4,8 @@ function initMap() {
       document.getElementById('map'), {zoom: 22});
   infoWindow = new google.maps.InfoWindow;
 
+  var userCoords = []
+
   if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(function userLoc(position) {
         var pos = {
@@ -48,10 +50,9 @@ function initMap() {
             map: map,
             draggable: true,
             label: "A"
-            //icon: {
-            //  url: "http://maps.google.com/mapfiles/kml/paddle/blu-circle.png"
-            //}
           });
+
+          userCoords.push(pos);
           console.log("marker placed");
         }
 
@@ -73,6 +74,7 @@ function initMap() {
     }
   }, 5000)
 
+  console.log(userCoords);
   //remove marker code
   //marker.setMap(null);
   
@@ -85,8 +87,10 @@ function initMap() {
     {lat: -27.467, lng: 153.027}
   ];
 
+  console.log(flightPlanCoordinates);
+
   var flightPath = new google.maps.Polyline({
-          path: flightPlanCoordinates,
+          path: userCoords,
           geodesic: true,
           strokeColor: '#FF0000',
           strokeOpacity: 1.0,
