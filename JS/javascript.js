@@ -54,7 +54,6 @@ function initMap() {
           userCoords.push(pos);
           console.log("marker placed");
         }
-
       }, function() {
         handleLocationError(true, map.getCenter());
       });
@@ -62,26 +61,25 @@ function initMap() {
       // Browser doesn't support Geolocation
       handleLocationError(false, map.getCenter());
     }
-  }, 5000)
+    console.log(userCoords);
 
-  console.log(userCoords);
+    var flightPlanCoordinates = [
+      {lat: 53.227605, lng: -0.539344},
+      {lat: 53.227540, lng: -0.539216}
+    ];
+
+    var flightPath = new google.maps.Polyline({
+            path: userCoords,
+            strokeColor: '#FF0000',
+            strokeOpacity: 1.0,
+            strokeWeight: 2
+          });
+    flightPath.setMap(map);
+  }, 1000)
   //remove marker code
   //marker.setMap(null);
   
   //----------------------------------------
-
-  var flightPlanCoordinates = [
-      {lat: 53.227707, lng: -0.549551},
-      {lat: 53.227239, lng: -0.549251}
-    ];
-
-  var flightPath = new google.maps.Polyline({
-          path: userCoords,
-          strokeColor: '#FF0000',
-          strokeOpacity: 1.0,
-          strokeWeight: 2
-        });
-  flightPath.setMap(map);
 }
 
 function weather() {
