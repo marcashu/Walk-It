@@ -54,6 +54,15 @@ function initMap() {
           userCoords.push(pos);
           console.log("marker placed");
         }
+
+        //draw path
+        var path = new google.maps.Polyline({
+                path: userCoords,
+                strokeColor: '#FF0000',
+                strokeOpacity: 1.0,
+                strokeWeight: 2
+              });
+        path.setMap(map);
       }, function() {
         handleLocationError(true, map.getCenter());
       });
@@ -62,19 +71,6 @@ function initMap() {
       handleLocationError(false, map.getCenter());
     }
     console.log(userCoords);
-
-    var flightPlanCoordinates = [
-      {lat: 53.227605, lng: -0.539344},
-      {lat: 53.227540, lng: -0.539216}
-    ];
-
-    var flightPath = new google.maps.Polyline({
-            path: userCoords,
-            strokeColor: '#FF0000',
-            strokeOpacity: 1.0,
-            strokeWeight: 2
-          });
-    flightPath.setMap(map);
   }, 1000)
   //remove marker code
   //marker.setMap(null);
