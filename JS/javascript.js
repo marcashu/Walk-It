@@ -13,14 +13,14 @@ function initMap() {
         console.log(pos);
         map.setCenter(pos);
 
-        //marker to be placed at user command and positioned at user location
-        document.getElementById("draw").onclick = function(){
-          var marker = new google.maps.Marker({position: pos, map: map});
-          console.log("marker placed");
-        }
-        //The marker, positioned at user location
-        //var marker = new google.maps.Marker({position: pos, map: map});
-      
+        //first marker placed at user location
+        var marker = new google.maps.Marker({
+          position: pos,
+          map: map,
+          icon: {
+          url: "http://maps.google.com/mapfiles/kml/paddle/red-circle.png"
+          }
+        });
       }, function() {
         handleLocationError(true, map.getCenter());
       });
@@ -29,7 +29,7 @@ function initMap() {
     handleLocationError(false, map.getCenter());
   }
 
-  /*const interval = setInterval(function() {
+  const interval = setInterval(function() {
   console.log("Locating user...")
     //Get user location
     if (navigator.geolocation) {
@@ -40,9 +40,28 @@ function initMap() {
         };
         console.log(pos);
 
-        //The marker, positioned at user location
-        var marker = new google.maps.Marker({position: pos, map: map});
+        //marker to be placed at user command and positioned at user location
+        document.getElementById("draw").onclick = function(){
+          var marker = new google.maps.Marker({
+            position: pos,
+            map: map,
+            icon: {
+              url: "http://maps.google.com/mapfiles/kml/paddle/blu-circle.png"
+            }
+          });
+          console.log("marker placed");
+        }
 
+        document.getElementById("draw2").onclick = function(){
+          var marker = new google.maps.Marker({
+            position: pos,
+            map: map,
+            icon: {
+              url: "http://maps.google.com/mapfiles/kml/paddle/ylw-circle.png"
+            }
+          });
+          console.log("marker placed");
+        }
       }, function() {
         handleLocationError(true, map.getCenter());
       });
@@ -50,7 +69,7 @@ function initMap() {
       // Browser doesn't support Geolocation
       handleLocationError(false, map.getCenter());
     }
-  }, 5000)*/
+  }, 5000)
   
   //----------------------------------------
 
