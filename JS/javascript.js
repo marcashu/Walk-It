@@ -56,17 +56,17 @@ function initMap() {
           userCoords.push(pos);
           markerArray.push(marker);
           console.log("marker placed");
-        }
 
-        //draw path
-        var path = new google.maps.Polyline({
-                path: userCoords,
-                strokeColor: '#FF0000',
-                strokeOpacity: 1.0,
-                strokeWeight: 2
-              });
-        path.setMap(map);
-        pathArray.push(path);
+          //draw path
+          var path = new google.maps.Polyline({
+                  path: userCoords,
+                  strokeColor: '#FF0000',
+                  strokeOpacity: 1.0,
+                  strokeWeight: 2
+                });
+          path.setMap(map);
+          pathArray.push(path);
+        }
 
         //clear markers and path
         document.getElementById("clear").onclick = function(){
