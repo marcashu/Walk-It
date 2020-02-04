@@ -74,7 +74,7 @@ function initMap() {
             markerArray[i].setMap(null);
           }
           for (var j = 0; j < pathArray.length; j++) {
-            pathArray.setMap(null);
+            pathArray[i].setMap(null);
           }
           markerArray = [];
           pathArray = [];
