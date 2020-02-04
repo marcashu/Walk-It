@@ -5,6 +5,7 @@ function initMap() {
   infoWindow = new google.maps.InfoWindow;
 
   var userCoords = [];
+  var markerArray = [];
 
   if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(function userLoc(position) {
@@ -52,6 +53,7 @@ function initMap() {
             label: "A"
           });
           userCoords.push(pos);
+          markerArray.push(marker);
           console.log("marker placed");
         }
 
@@ -63,6 +65,14 @@ function initMap() {
                 strokeWeight: 2
               });
         path.setMap(map);
+
+        //clear markers and path
+        document.getElementById("clear").onclick = function(){
+          for (var i = 0; i < markerArray.length; i++) {
+            markerArray[i]. setMap(null);
+          }
+          markerArray = [];
+        }
       }, function() {
         handleLocationError(true, map.getCenter());
       });
