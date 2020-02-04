@@ -6,6 +6,7 @@ function initMap() {
 
   var userCoords = [];
   var markerArray = [];
+  var path;
 
   if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(function userLoc(position) {
@@ -58,7 +59,7 @@ function initMap() {
         }
 
         //draw path
-        var path = new google.maps.Polyline({
+        path = new google.maps.Polyline({
                 path: userCoords,
                 strokeColor: '#FF0000',
                 strokeOpacity: 1.0,
@@ -72,6 +73,8 @@ function initMap() {
             markerArray[i]. setMap(null);
           }
           markerArray = [];
+
+          path.setMap(null);
         }
       }, function() {
         handleLocationError(true, map.getCenter());
