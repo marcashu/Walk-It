@@ -6,7 +6,7 @@ function initMap() {
 
   var userCoords = [];
   var markerArray = [];
-  var path;
+  var pathArray = [];
 
   if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(function userLoc(position) {
@@ -59,22 +59,26 @@ function initMap() {
         }
 
         //draw path
-        path = new google.maps.Polyline({
+        var path = new google.maps.Polyline({
                 path: userCoords,
                 strokeColor: '#FF0000',
                 strokeOpacity: 1.0,
                 strokeWeight: 2
               });
         path.setMap(map);
+        pathArray.push(path);
 
         //clear markers and path
         document.getElementById("clear").onclick = function(){
           for (var i = 0; i < markerArray.length; i++) {
-            markerArray[i]. setMap(null);
+            markerArray[i].setMap(null);
+          }
+          for (var i = 0; i < markerArray.length; i++) {
+            pathArray.setMap(null);
           }
           markerArray = [];
-
-          path.setMap(null);
+          pathArray = [];
+          //console.log("Path Cleared");
         }
       }, function() {
         handleLocationError(true, map.getCenter());
