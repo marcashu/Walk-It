@@ -55,7 +55,7 @@ function initMap() {
           });
           userCoords.push(pos);
           markerArray.push(marker);
-          console.log("marker placed");
+          console.log("Marker placed");
 
           //draw path
           var path = new google.maps.Polyline({
@@ -78,12 +78,10 @@ function initMap() {
           }
           markerArray = [];
           pathArray = [];
+          userCoords = [];
           console.log("Path Cleared");
-
           //path.setMap(null);
         }
-
-        console.log("Path Array:" + pathArray);
       }, function() {
         handleLocationError(true, map.getCenter());
       });
@@ -91,7 +89,7 @@ function initMap() {
       // Browser doesn't support Geolocation
       handleLocationError(false, map.getCenter());
     }
-    console.log(userCoords);
+    console.log("User coords: " + userCoords);
   }, 1000)
   //remove marker code
   //marker.setMap(null);
