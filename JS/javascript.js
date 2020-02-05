@@ -65,7 +65,7 @@ function initMap() {
                   strokeWeight: 2
                 });
           path.setMap(map);
-          //pathArray.push(path);
+          pathArray.push(path);
         }
 
         //clear markers and path
@@ -73,15 +73,17 @@ function initMap() {
           for (var i = 0; i < markerArray.length; i++) {
             markerArray[i].setMap(null);
           }
-          //for (var j = 0; j < pathArray.length; j++) {
-          //  pathArray[i].setMap(null);
-          //}
-          //markerArray = [];
-          //pathArray = [];
-          //console.log("Path Cleared");
+          for (var j = 0; j < pathArray.length; j++) {
+            pathArray[j].setMap(null);
+          }
+          markerArray = [];
+          pathArray = [];
+          console.log("Path Cleared");
 
-          path.setMap(null);
+          //path.setMap(null);
         }
+
+        console.log("Path Array:" + pathArray);
       }, function() {
         handleLocationError(true, map.getCenter());
       });
