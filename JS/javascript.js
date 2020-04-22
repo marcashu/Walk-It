@@ -1,12 +1,28 @@
+//doc ready.
+$( document ).ready(function() {
+  weather();
+  initMap();
+  console.log( "ready!" );
+});
+
+document.getElementById("countyselect").onchange = function() {countyselecter()};
+
+function countyselecter() {
+  var e = document.getElementById("countyselect");
+  var countyid = e.options[e.selectedIndex].value;
+  console.log("countyid: " + countyid);
+
+  return countyid;
+}
+
 function initMap() {
   //Create map and itialize to world map
-  var map = new google.maps.Map(
-      document.getElementById('map'), {zoom: 22});
-  infoWindow = new google.maps.InfoWindow;
 
   var userCoords = [];
   var markerArray = [];
   var pathArray = [];
+  var idBasedPaths;
+  var map;
 
   if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(function userLoc(position) {
@@ -14,9 +30,8 @@ function initMap() {
           lat: position.coords.latitude,
           lng: position.coords.longitude
         };
-        console.log(pos);
-        map.setCenter(pos);
 
+        map = new google.maps.Map(document.getElementById('map'), {zoom: 22, center: pos});
         //first marker placed at user location
         var marker = new google.maps.Marker({
           position: pos,
@@ -43,10 +58,9 @@ function initMap() {
           lat: position.coords.latitude,
           lng: position.coords.longitude
         };
-        console.log(pos);
 
         //marker to be placed at user command and positioned at user location
-        document.getElementById("draw").onclick = function(){
+        document.getElementById("draw").onclick = function() {
           var marker = new google.maps.Marker({
             position: pos,
             map: map,
@@ -69,7 +83,7 @@ function initMap() {
         }
 
         //clear markers and path
-        document.getElementById("clear").onclick = function(){
+        document.getElementById("clear").onclick = function() {
           for (var i = 0; i < markerArray.length; i++) {
             markerArray[i].setMap(null);
           }
@@ -79,9 +93,46 @@ function initMap() {
           markerArray = [];
           pathArray = [];
           userCoords = [];
+          usercoordstoredlats = [];
+          usercoordstoredlongs = [];
           console.log("Path Cleared");
-          //path.setMap(null);
         }
+
+        document.getElementById("save").onclick = function(){
+          countyid = countyselecter();
+          console.log("countyid: "+ countyid);
+          
+          if (userCoords.length < 2) {
+            alert("Please place at least two markers to save!");
+          }
+          else if (userCoords.length >= 2) {
+            var pathname = prompt("Please name your path");
+            if ((pathname == null) || (pathname == "") || (pathname == " ")) {
+              alert("Please enter a valid pathname");
+            }
+            else if ((!!pathname) || (pathname !== "") || (pathname !== " ")) {
+              console.log("user coordinates" , userCoords);
+              var json = JSON.stringify(userCoords);
+              console.log(json);
+              $.ajax({ 
+                type: "GET", 
+                url: "JS/submitcoords.php",
+                data: { coords : json , pathName : pathname , countyid : countyid},
+                dataType: 'json',
+                success: function(data) { 
+                  console.log(data);
+                  if (data.success){
+                    alert("mysql successfully inserted");
+                  }
+                  else{
+                    alert("didnt work");
+                  }
+                }
+              });
+            }
+          }
+        }
+
       }, function() {
         handleLocationError(true, map.getCenter());
       });
@@ -89,8 +140,8 @@ function initMap() {
       // Browser doesn't support Geolocation
       handleLocationError(false, map.getCenter());
     }
-    console.log("User coords: " + userCoords);
-  }, 1000)
+    //console.log("User coords: " + userCoords);
+  }, 500)
   //remove marker code
   //marker.setMap(null);
   
@@ -108,9 +159,6 @@ function weather() {
     latitude = position.coords.latitude;
     longitude = position.coords.longitude;
 
-    location.innerHTML =
-      "Latitude is " + latitude + "° Longitude is " + longitude + "°";
-
     $.getJSON(
       url + apiKey + "/" + latitude + "," + longitude + "?callback=?",
       function(data) {
@@ -123,10 +171,24 @@ function weather() {
   function error() {
     location.innerHTML = "Unable to retrieve your location";
   }
-
-  location.innerHTML = "Locating...";
 }
 
-weather();
-initMap();
+function openNav() {
+  document.getElementById("mySidebar").style.width = "300px";
+  document.getElementById("main").style.marginLeft = "300px";
+}
+
+function closeNav() {
+  document.getElementById("mySidebar").style.width = "0";
+  document.getElementById("main").style.marginLeft= "0";
+}
+
+$('.hover_bkgr_fricc').click(function(){
+  $('.hover_bkgr_fricc').hide();
+});
+
+$('.popupCloseButton').click(function(){
+    $('.hover_bkgr_fricc').hide();
+});
+
 // https://enlight.nyc/projects/weather/
